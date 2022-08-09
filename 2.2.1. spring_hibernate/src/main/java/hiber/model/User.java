@@ -10,6 +10,17 @@ public class User {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
+
+   /*
+         Вот это и есть внешний ключ, который я создавал в БД.
+         Хибернейт кабанчиком метнется в бд, посмотрит там на столбец с именем "car_id"
+         Узнает что это внешний ключ для другой таблицы в БД
+         Метнется туда и вытащит все, что мне надо
+    */
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "car_id")
+   private Car car;
+
    @Column(name = "name")
    private String firstName;
 
@@ -25,6 +36,12 @@ public class User {
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
+   }
+   public User(String firstName, String lastName, String email, Car car) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.car = car;
    }
 
    public Long getId() {
@@ -57,5 +74,24 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   public Car getCar() {
+      return car;
+   }
+
+   public void setCar(Car car) {
+      this.car = car;
+   }
+
+   @Override
+   public String toString() {
+      return "User{" +
+              "id=" + id +
+              ", car=" + car +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", email='" + email + '\'' +
+              '}';
    }
 }
